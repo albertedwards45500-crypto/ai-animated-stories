@@ -1,0 +1,65 @@
+:root {
+  --el-color-primary: #167d78;
+  --el-color-primary-light-3: #55a49e;
+  --el-color-primary-light-5: #83bbb6;
+  --el-color-primary-light-7: #b1d3d0;
+  --el-color-primary-light-8: #c8e0dd;
+  --el-color-primary-light-9: #e2efed;
+  --el-color-primary-dark-2: #11635f;
+  --el-border-radius-base: 6px;
+  --el-border-radius-small: 4px;
+  --workspace-bg: #f3f6f5;
+  --workspace-line: #dfe7e5;
+}
+
+html,
+body,
+#app {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--workspace-bg);
+  color: #1d2b2a;
+  font-family: Inter, "Segoe UI", "Microsoft YaHei", sans-serif;
+  font-size: 14px;
+}
+
+html.dark {
+  --workspace-bg: #151c1b;
+  --workspace-line: #303c3a;
+}
+
+html.dark body {
+  color: #e2e9e7;
+}
+
+.el-button,
+.el-card,
+.el-dialog,
+.el-drawer {
+  transition: border-color 160ms ease, background-color 160ms ease, box-shadow 160ms ease;
+}
+
+.el-button:focus-visible,
+.el-card:focus-visible,
+button:focus-visible,
+a:focus-visible {
+  outline: 2px solid var(--el-color-primary);
+  outline-offset: 2px;
+}
+
+.el-dialog { max-width: calc(100vw - 24px); }
+.el-drawer { max-width: 100vw; }
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

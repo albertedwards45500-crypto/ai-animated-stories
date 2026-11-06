@@ -1,0 +1,47 @@
+# 环境与密钥（绝不提交）
+.env
+.env.local
+*.env
+.env.*
+!.env.example
+
+# 媒体素材（本地生成产物不入库）
+media/
+!media/.gitkeep
+
+# Python
+.venv/
+backend/.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+alembic/versions/__pycache__/
+
+# Node
+node_modules/
+frontend/dist/
+*.local
+
+# IDE / 系统
+.idea/
+.vscode/
+.workbuddy/
+.trae/
+.DS_Store
+Thumbs.db
+
+# 日志与临时
+*.log
+.runtime/
+tmp/
+logs/
+output/
+*.tsbuildinfo
+
+# 本地数据库与可执行依赖
+*.db
+*.db-shm
+*.db-wal
+*.sqlite
+*.sqlite3
+tools/*.exe
