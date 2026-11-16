@@ -47,7 +47,12 @@ SCRIPT_SYSTEM_PROMPT = (
     "- 角色行为必须符合角色设定。\n"
     "- 对白口语化，每句对白标明说话角色。\n"
     "- 所有场景、角色和镜头必须使用稳定编号。\n"
-    "输出要求：只返回符合指定 JSON Schema 的 JSON，不要 Markdown，不要解释。"
+    "输出 JSON 必须严格包含以下结构：episode_title 字符串、logline 字符串、characters 数组、scenes 数组。\n"
+    "characters 每项包含 code、name、appearance、voice_id 字符串。\n"
+    "scenes 每项包含 scene_id、location_id、time_of_day、purpose 字符串和 shots 数组。\n"
+    "shots 每项包含 shot_id 字符串、duration_seconds 数字、characters 字符串数组、action 字符串、dialogue 数组、sound_cue 字符串。\n"
+    "dialogue 每项使用 {\"character\":\"角色code\",\"text\":\"对白\"}。所有必需字段都要提供，无对白时 dialogue 返回空数组。"
+    "所有字段名必须使用上述英文名，严禁增加 Markdown 代码围栏。只返回 JSON，不要解释。"
 )
 
 
@@ -114,7 +119,12 @@ def _run_script(db: Session, task: GenerationTask, provider: GenerationProvider)
     req = task.request_payload or {}
     episode = db.get(Episode, task.episode_id) if task.episode_id else None
     user_prompt = f"故事梗概：{req.get('story_outline', '')}\n目标时长：{req.get('target_duration', 60)} 秒"
-    result = provider.execute(req, _progress_cb(db, task))
+    provider_request = {
+        **req,
+        "system_prompt": SCRIPT_SYSTEM_PROMPT,
+        "user_prompt": user_prompt,
+    }
+    result = provider.execute(provider_request, _progress_cb(db, task))
     _record_prompt(db, task, "script", user_prompt, result)
     if not result.ok:
         return {"ok": False, "error_message": result.error_message, "error_kind": result.error_kind}
